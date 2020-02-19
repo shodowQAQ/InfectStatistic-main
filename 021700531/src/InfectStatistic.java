@@ -59,17 +59,25 @@ class InfectStatistic {
     		for (int i=0;i<instructions.length;i++)
     		{
     			 if(instructions[i].equals("-date")) { //读取到-date参数
- 					i= getDate(++i);
+ 					i= setDate(++i);
  					if(i == -1) { //说明上述步骤中发现命令行出错
  						System.out.println("日期输入格式错误");
  						return false;
  					}
     			}
+    			 else if(instructions[i].equals("-log")) {//读取-log输入路径
+ 					i = setInPut(++i);
+ 					if(i == -1) { //说明上述步骤中发现命令行出错
+ 						System.out.println("输入参数错误");
+ 						return false;
+ 					}
+    			 }
     		}
     		return true;
     	}
     	
-		public int getDate(int i) {
+    	/*判断日期指令*/
+		public int setDate(int i) {
 			if(i < instructions.length) { //当下标未越界
 				date = instructions[i] + ".log.txt";
 		    }	
@@ -80,6 +88,18 @@ class InfectStatistic {
 			return i;
 		}	
 
+		/*判断输入路径指令*/
+		public int setInPut(int i) {
+			if(i < instructions.length) { 
+				if(instructions[i].matches("^[A-z]:\\\\(.+?\\\\)*$")) //正则表达式判断路径
+					input = instructions[i];
+				else
+					return -1;
+			} else
+				return -1;
+			return i;
+		}
+		
     }
     public static void main(String[] args){
     	InfectStatistic infectstatistic=new InfectStatistic();
