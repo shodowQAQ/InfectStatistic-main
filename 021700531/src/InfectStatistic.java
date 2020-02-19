@@ -72,6 +72,13 @@ class InfectStatistic {
  						return false;
  					}
     			 }
+    			 else if(instructions[i].equals("-out")) {//读取-out输出路径
+ 					i= setOutPut(++i);
+ 					if(i==-1) {
+ 						System.out.println("输出参数错误");
+ 						return false;
+ 					}
+    			 }
     		}
     		return true;
     	}
@@ -100,6 +107,17 @@ class InfectStatistic {
 			return i;
 		}
 		
+		/*判断输出路径*/
+		public int setOutPut(int i) {
+			if(i < instructions.length) { //当下标未越界
+				if(instructions[i].matches("^[A-z]:\\\\(\\S+)+(\\.txt)$")) //判断字符串是不是txt文件路径
+					output = instructions[i];
+				else
+					return -1;
+			} else
+				return -1;
+			return i;
+		}
     }
     public static void main(String[] args){
     	InfectStatistic infectstatistic=new InfectStatistic();
