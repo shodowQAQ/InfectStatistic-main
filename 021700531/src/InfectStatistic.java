@@ -1,7 +1,6 @@
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,6 +23,22 @@ class InfectStatistic {
 	static String date;
 	static String input;
 	static String output;
+    /*读入txt文件*/
+    public static String txt2String(File file){
+        StringBuilder result = new StringBuilder();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
+            String s = null;
+            while((s = br.readLine()) != null){//使用readLine方法，一次读一行
+            	if(!s.substring(0, 1).equals("/"))
+                result.append(System.lineSeparator()+s);
+            }
+            br.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
     
     /*指令类*/
     class Instructions{
@@ -104,44 +119,12 @@ class InfectStatistic {
 			return i;
 		}
     }
-    
-    /*文件处理类*/
-    class ManageFile{
-    	/*读取目录下的文件*/
-		public void getFileList() {
-			File file = new File(input);
-			File[] fileList = file.listFiles();
-			String fileName;
-			for (int i = 0; i < fileList.length; i++) {
-				fileName = fileList[i].getName();
-					readTxt(input + fileName);
-			}
-		}
-		
-	    /*读入txt文件*/
-	    public void readTxt(String filePath){
-	        try {
-	            BufferedReader bfr = new BufferedReader(new InputStreamReader(
-	            		new FileInputStream(new File(filePath)), "UTF-8"));
-	            String lineTxt = null;
-	            while ((lineTxt = bfr.readLine()) != null) { 
-	            }
-	            System.out.print("陈工");
-	            bfr.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-    }
-    
-    /*主函数*/
     public static void main(String[] args){
     	InfectStatistic infectstatistic=new InfectStatistic();
         Instructions instruction=infectstatistic.new Instructions();
         instruction.setInstructions(args);
         instruction.checkInstructions();
-        ManageFile mangefile=infectstatistic.new ManageFile();
-        mangefile.readTxt(input);
+
     }
     
 }
