@@ -143,10 +143,52 @@ class InfectStatistic {
 	    /*文本处理*/
 	    public int judgeCase(String string) {
 	    	String case1 = "(\\S+) 新增 感染患者 (\\d+)人";
-	    	boolean isCase = Pattern.matches(case1, string);
-	    	if(isCase==true) {
+	    	String case2 = "(\\S+) 新增 疑似患者 (\\d+)人";
+	    	String case3 = "(\\S+) 治愈 (\\d+)人";
+	    	String case4 = "(\\S+) 死亡 (\\d+)人";
+	    	String case5 = "(\\S+) 感染患者 流入 (\\S+) (\\d+)人";
+	    	String case6 = "(\\S+) 疑似患者 流入 (\\S+) (\\d+)人";
+	    	String case7 = "(\\S+) 疑似患者 确诊感染 (\\d+)人";
+	    	String case8 = "(\\S+) 排除 疑似患者 (\\d+)人";
+	    	boolean isCase1 = Pattern.matches(case1, string);
+	    	boolean isCase2 = Pattern.matches(case2, string);
+	    	boolean isCase3 = Pattern.matches(case3, string);
+	    	boolean isCase4 = Pattern.matches(case4, string);
+	    	boolean isCase5 = Pattern.matches(case5, string);
+	    	boolean isCase6 = Pattern.matches(case6, string);
+	    	boolean isCase7 = Pattern.matches(case7, string);
+	    	boolean isCase8 = Pattern.matches(case8, string);
+	    	if(isCase1==true) {
 	    		System.out.print("检测到感染患者");
 	    		return 1;
+	    	}
+	    	else if(isCase2==true) {
+	    		System.out.print("检测到新增疑似患者");
+	    		return 2;
+	    	}
+	    	else if(isCase3==true) {
+	    		System.out.print("治愈");
+	    		return 3;
+	    	}
+	    	else if(isCase4==true) {
+	    		System.out.print("死亡");
+	    		return 4;
+	    	}
+	    	else if(isCase5==true) {
+	    		System.out.print("感染流");
+	    		return 5;
+	    	}
+	    	else if(isCase6==true) {
+	    		System.out.print("疑似流");
+	    		return 6;
+	    	}
+	    	else if(isCase7==true) {
+	    		System.out.print("疑似确");
+	    		return 7;
+	    	}
+	    	else if(isCase8=true) {
+	    		System.out.print("疑似排");
+	    		return 8;
 	    	}
 	    	return -1;
 	    }
