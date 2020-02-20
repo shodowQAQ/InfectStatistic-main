@@ -163,10 +163,10 @@ class InfectStatistic {
 	    		addSP(string);
 	    	}
 	    	else if(isCase3==true) {
-	    		//System.out.print("治愈");
+	    		addCure(string);
 	    	}
 	    	else if(isCase4==true) {
-	    		//System.out.print("死亡");
+	    		addDeath(string);
 	    	}
 	    	else if(isCase5==true) {
 	    		//System.out.print("感染流");
@@ -214,17 +214,34 @@ class InfectStatistic {
 	    public void addCure(String string) {
 	    	String[] str_arr = string.split(" "); //将字符串以空格分割为多个字符串
 	    	int i;
-	    	int n = Integer.valueOf(str_arr[2].replace("人", ""));//将人前的数字从字符串类型转化为int类型
+	    	int n = Integer.valueOf(str_arr[2].replace("人", ""));
 	    	for(i = 0; i < province.length; i++) { 
-	    		if(str_arr[0].equals(province[i])) { //第一个字符串为省份
+	    		if(str_arr[0].equals(province[i])) {
 	    			data[0][2] += n; //全国治愈人数增加
 	    			data[0][0] -= n; //全国感染患者人数减少
 	    			data[i][2] += n; //该省份治愈人数增加
 	    			data[i][0] -= n; //该省份感染患者人数减少
-	    			System.out.print(data[0][2]);
-	    			System.out.print(data[0][0]);
-	    			System.out.print(data[i][2]);
-	    			System.out.print(data[i][0]);
+	    			break;
+	    		}
+	    	}
+	    }
+	    
+	    /*死亡患者处理*/
+	    public void addDeath(String string) {
+	    	String[] str_arr = string.split(" "); //将字符串以空格分割为多个字符串
+	    	int i;
+	    	int n = Integer.valueOf(str_arr[2].replace("人", ""));
+	    	
+	    	for(i = 0; i < province.length; i++) {
+	    		if(str_arr[0].equals(province[i])) {
+	    			data[0][3] += n; //全国死亡人数增加
+	    			data[0][0] -= n; //全国感染患者人数减少
+	    			data[i][3] += n; //该省份死亡人数增加
+	    			data[i][0] -= n; //该省份感染患者人数减少
+	    			System.out.println(data[0][3]);
+	    			System.out.println(data[0][0]);
+	    			System.out.println(data[i][3]);
+	    			System.out.println(data[i][0]);
 	    			break;
 	    		}
 	    	}
