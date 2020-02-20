@@ -176,7 +176,7 @@ class InfectStatistic {
 	    		moveSP(string);
 	    	}
 	    	else if(isCase7==true) {
-	    		//System.out.print("疑似确.");
+	    		diagnoseSP(string);
 	    	}
 	    	else if(isCase8=true) {
 	    		//System.out.print("疑似排");
@@ -268,14 +268,34 @@ class InfectStatistic {
 	    	for(i = 0; i < province.length; i++) {
 	    		if(str_arr[0].equals(province[i])) { 
 	    			data[i][1] -= n; //该省份疑似患者减少
-	    			System.out.println(data[i][1]);
 	    		}
 	    		if(str_arr[3].equals(province[i])) { //第四个字符串为流入省份
 	    			data[i][1] += n; //该省份疑似患者增加
-	    			System.out.println(data[i][1]);
 	    		}
 	    	}
 	    }
+	    
+	    /*疑似患者确诊s*/
+	    public void diagnoseSP(String string) {
+	    	String[] str_arr = string.split(" "); 
+	    	int i;
+	    	int n = Integer.valueOf(str_arr[3].replace("人", ""));
+	    	
+	    	for(i = 0; i < province.length; i++) {
+	    		if(str_arr[0].equals(province[i])) { 
+	    			data[0][1] -= n; //全国疑似患者人数减少
+	    			data[0][0] += n; //全国感染患者人数增加
+	    			data[i][1] -= n; //该省份疑似患者人数减少
+	    			data[i][0] += n; //该省份感染患者人数增加
+	    			System.out.println(data[0][1]);
+	    			System.out.println(data[0][0]);
+	    			System.out.println(data[i][1]);
+	    			System.out.println(data[i][0]);
+	    			break;
+	    		}
+	    	}
+	    }
+	    
     }
     
     /*主函数*/
