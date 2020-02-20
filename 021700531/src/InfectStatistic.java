@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
@@ -22,17 +23,20 @@ class InfectStatistic {
 	/*定义静态数据省份和数据*/
 	static String[] province = {"全国", "安徽", "澳门" ,"北京", "重庆", "福建","甘肃","广东", "广西", "贵州", "海南", "河北", "河南", "黑龙江", "湖北", "湖南", "吉林","江苏", "江西", "辽宁", "内蒙古", "宁夏", "青海", "山东", "山西", "陕西", "上海","四川", "台湾", "天津", "西藏", "香港", "新疆", "云南", "浙江"};
 	static int[][] data =new int[35][4];
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	static String date;
 	static String input;
 	static String output;
+	static int[] type = {1,2,3,4};
+	static String[] typename = {"感染患者", "疑似患者", "治愈", "死亡"};
     
     /*指令类*/
     class Instructions{
     	String [] instructions;
+    	
     	void setInstructions(String[] a){//设置指令
     		instructions=a;
     	}		
+    	
     	public boolean checkInstructions() {//判断指令是否输入成功
     		if(instructions.length==0)
     		{
@@ -110,7 +114,7 @@ class InfectStatistic {
     /*文件处理类*/
     class ManageFile{
     	/*读取目录下的文件*/
-		public void getFileList() {
+		public void manageTxt() {
 			File file = new File(input);
 			File[] fileList = file.listFiles();
 			String fileName;
@@ -130,17 +134,18 @@ class InfectStatistic {
 	            while ((lineTxt = bfr.readLine()) != null) { 
 	            	if(!lineTxt.startsWith("//"))
 	            	{
-	            		judgeCase(lineTxt);
+	            		handleCase(lineTxt);
 	            	}
 	            }
 	            bfr.close();
+	            writeTxt();
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 	    }
 	    
 	    /*文本处理*/
-	    public void judgeCase(String string) {
+	    public void handleCase(String string) {
 	    	String case1 = "(\\S+) 新增 感染患者 (\\d+)人";
 	    	String case2 = "(\\S+) 新增 疑似患者 (\\d+)人";
 	    	String case3 = "(\\S+) 治愈 (\\d+)人";
@@ -310,6 +315,30 @@ class InfectStatistic {
 	    	}
 	    }
 	    
+	    public void writeTxt() {
+	    	FileWriter fwriter = null;
+	    	int i, j, k;
+	        try {
+	        	fwriter = new FileWriter(output);
+	        	for(i = 0; i < province.length; i++) { 
+	        			fwriter.write(province[i] + " ");
+	        				for(k = 0; k < type.length; k++) {
+	        						fwriter.write(typename[k] + data[i][k] + "人 ");
+	        						break;
+	        				}
+	        			fwriter.write("\n");
+	        	}
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                fwriter.flush();
+	                fwriter.close();
+	            } catch (IOException ex) {
+	                ex.printStackTrace();
+	            }
+	        }
+	    }
     }
     
     /*主函数*/
@@ -317,9 +346,8 @@ class InfectStatistic {
     	InfectStatistic infectstatistic=new InfectStatistic();
         Instructions instruction=infectstatistic.new Instructions();
         instruction.setInstructions(args);
-        instruction.checkInstructions();
         ManageFile mangefile=infectstatistic.new ManageFile();
-        mangefile.readTxt(input);
+        mangefile.manageTxt();
     }
     
 }
