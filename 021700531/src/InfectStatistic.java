@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.regex.Pattern;
 
 /**
  * InfectStatistic
@@ -121,17 +122,36 @@ class InfectStatistic {
 	    /*读入txt文件*/
 	    public void readTxt(String filePath){
 	        try {
+	        	int casenumber;
 	            BufferedReader bfr = new BufferedReader(new InputStreamReader(
 	            		new FileInputStream(new File(filePath)), "UTF-8"));
 	            String lineTxt = null;
 	            while ((lineTxt = bfr.readLine()) != null) { 
+	            	if(!lineTxt.startsWith("//"))
+	            	{
+	            		int judgenumber;
+	            		judgenumber=judgeCase(lineTxt);
+	            	//	switch (jumdgenumber)
+	            	}
 	            }
-	            System.out.print("陈工");
 	            bfr.close();
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
 	    }
+	    
+	    /*文本处理*/
+	    public int judgeCase(String string) {
+	    	String case1 = "(\\S+) 新增 感染患者 (\\d+)人";
+	    	boolean isCase = Pattern.matches(case1, string);
+	    	if(isCase==true) {
+	    		System.out.print("检测到感染患者");
+	    		return 1;
+	    	}
+	    	return -1;
+	    }
+	    
+	    
     }
     
     /*主函数*/
