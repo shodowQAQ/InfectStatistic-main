@@ -1,4 +1,5 @@
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -212,7 +213,7 @@ class InfectStatistic {
 	    
 	    /*治愈患者处理*/
 	    public void addCure(String string) {
-	    	String[] str_arr = string.split(" "); //将字符串以空格分割为多个字符串
+	    	String[] str_arr = string.split(" "); 
 	    	int i;
 	    	int n = Integer.valueOf(str_arr[2].replace("人", ""));
 	    	for(i = 0; i < province.length; i++) { 
@@ -228,7 +229,7 @@ class InfectStatistic {
 	    
 	    /*死亡患者处理*/
 	    public void addDeath(String string) {
-	    	String[] str_arr = string.split(" "); //将字符串以空格分割为多个字符串
+	    	String[] str_arr = string.split(" "); 
 	    	int i;
 	    	int n = Integer.valueOf(str_arr[2].replace("人", ""));
 	    	
@@ -238,14 +239,12 @@ class InfectStatistic {
 	    			data[0][0] -= n; //全国感染患者人数减少
 	    			data[i][3] += n; //该省份死亡人数增加
 	    			data[i][0] -= n; //该省份感染患者人数减少
-	    			System.out.println(data[0][3]);
-	    			System.out.println(data[0][0]);
-	    			System.out.println(data[i][3]);
-	    			System.out.println(data[i][0]);
 	    			break;
 	    		}
 	    	}
 	    }
+	    
+
 	    
     }
     
