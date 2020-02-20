@@ -170,7 +170,7 @@ class InfectStatistic {
 	    		addDeath(string);
 	    	}
 	    	else if(isCase5==true) {
-	    		//System.out.print("感染流");
+	    		moveIP(string);
 	    	}
 	    	else if(isCase6==true) {
 	    		//System.out.print("疑似流");
@@ -244,7 +244,22 @@ class InfectStatistic {
 	    	}
 	    }
 	    
-
+	    /*感染患者移动*/
+	    public void moveIP(String string) {
+	    	String[] str_arr = string.split(" "); 
+	    	int i;
+	    	int n = Integer.valueOf(str_arr[4].replace("人", ""));//得到数据
+	    	for(i = 0; i < province.length; i++) {
+	    		if(str_arr[0].equals(province[i])) {
+	    			data[i][0] -= n; //该省份感染患者人数减少
+	    			System.out.println(data[i][0]);
+	    		}
+	    		if(str_arr[3].equals(province[i])) { 
+	    			data[i][0] += n; //该省份感染患者人数增加
+	    			System.out.println(data[i][0]);
+	    		}
+	    	}
+	    }
 	    
     }
     
