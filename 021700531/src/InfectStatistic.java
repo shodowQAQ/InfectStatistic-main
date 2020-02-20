@@ -183,7 +183,7 @@ class InfectStatistic {
 	    		return 6;
 	    	}
 	    	else if(isCase7==true) {
-	    		System.out.print("“…À∆»∑");
+	    		System.out.print("“…À∆»∑.");
 	    		return 7;
 	    	}
 	    	else if(isCase8=true) {
@@ -192,6 +192,7 @@ class InfectStatistic {
 	    	}
 	    	return -1;
 	    }
+	    
 	    
 	    
     }
