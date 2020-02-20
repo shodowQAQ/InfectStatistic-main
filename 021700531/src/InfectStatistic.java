@@ -201,18 +201,34 @@ class InfectStatistic {
 	    	String[] str_arr = string.split(" ");
 	    	int i;
 	    	int n = Integer.valueOf(str_arr[3].replace("人", ""));
-	    	System.out.println(data[0][1]);
 	    	for(i = 0; i < province.length; i++) {
 	    		if(str_arr[0].equals(province[i])) { 
 	    			data[0][1] += n; //全国疑似患者人数增加
-	    	    	System.out.println(data[0][1]);
 	    			data[i][1] += n; //该省份疑似患者人数增加
 	    			break;
 	    		}
 	    	}
 	    }
 	    
-	    
+	    /*治愈患者处理*/
+	    public void addCure(String string) {
+	    	String[] str_arr = string.split(" "); //将字符串以空格分割为多个字符串
+	    	int i;
+	    	int n = Integer.valueOf(str_arr[2].replace("人", ""));//将人前的数字从字符串类型转化为int类型
+	    	for(i = 0; i < province.length; i++) { 
+	    		if(str_arr[0].equals(province[i])) { //第一个字符串为省份
+	    			data[0][2] += n; //全国治愈人数增加
+	    			data[0][0] -= n; //全国感染患者人数减少
+	    			data[i][2] += n; //该省份治愈人数增加
+	    			data[i][0] -= n; //该省份感染患者人数减少
+	    			System.out.print(data[0][2]);
+	    			System.out.print(data[0][0]);
+	    			System.out.print(data[i][2]);
+	    			System.out.print(data[i][0]);
+	    			break;
+	    		}
+	    	}
+	    }
 	    
     }
     
