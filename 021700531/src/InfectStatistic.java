@@ -129,9 +129,7 @@ class InfectStatistic {
 	            while ((lineTxt = bfr.readLine()) != null) { 
 	            	if(!lineTxt.startsWith("//"))
 	            	{
-	            		int judgenumber;
-	            		judgenumber=judgeCase(lineTxt);
-	            	//	switch (jumdgenumber)
+	            		judgeCase(lineTxt);
 	            	}
 	            }
 	            bfr.close();
@@ -141,7 +139,7 @@ class InfectStatistic {
 	    }
 	    
 	    /*文本处理*/
-	    public int judgeCase(String string) {
+	    public void judgeCase(String string) {
 	    	String case1 = "(\\S+) 新增 感染患者 (\\d+)人";
 	    	String case2 = "(\\S+) 新增 疑似患者 (\\d+)人";
 	    	String case3 = "(\\S+) 治愈 (\\d+)人";
@@ -159,41 +157,46 @@ class InfectStatistic {
 	    	boolean isCase7 = Pattern.matches(case7, string);
 	    	boolean isCase8 = Pattern.matches(case8, string);
 	    	if(isCase1==true) {
-	    		System.out.print("检测到感染患者");
-	    		return 1;
+	    		addIP(string);
 	    	}
 	    	else if(isCase2==true) {
-	    		System.out.print("检测到新增疑似患者");
-	    		return 2;
+	    		//System.out.print("检测到新增疑似患者");
 	    	}
 	    	else if(isCase3==true) {
-	    		System.out.print("治愈");
-	    		return 3;
+	    		//System.out.print("治愈");
 	    	}
 	    	else if(isCase4==true) {
-	    		System.out.print("死亡");
-	    		return 4;
+	    		//System.out.print("死亡");
 	    	}
 	    	else if(isCase5==true) {
-	    		System.out.print("感染流");
-	    		return 5;
+	    		//System.out.print("感染流");
 	    	}
 	    	else if(isCase6==true) {
-	    		System.out.print("疑似流");
-	    		return 6;
+	    		//System.out.print("疑似流");
 	    	}
 	    	else if(isCase7==true) {
-	    		System.out.print("疑似确.");
-	    		return 7;
+	    		//System.out.print("疑似确.");
 	    	}
 	    	else if(isCase8=true) {
-	    		System.out.print("疑似排");
-	    		return 8;
+	    		//System.out.print("疑似排");
 	    	}
-	    	return -1;
 	    }
 	    
-	    
+	    /*处理新增感染患者*/
+	    public void addIP(String string) {
+	    	String[] str_arr = string.split(" "); 
+	    	int i;
+	    	int n = Integer.valueOf(str_arr[3].replace("人", ""));//得到数据
+	    	System.out.println(data[0][0]);
+	    	for(i = 0; i < province.length; i++) {
+	    		if(str_arr[0].equals(province[i])) { 
+	    			data[0][0] += n; //全国感染患者人数增加
+	    	    	System.out.println(data[0][0]);
+	    			data[i][0] += n; //该省份感染患者人数增加
+	    			break;
+	    		}
+	    	}
+	    }
 	    
     }
     
