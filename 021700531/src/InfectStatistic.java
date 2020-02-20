@@ -160,7 +160,7 @@ class InfectStatistic {
 	    		addIP(string);
 	    	}
 	    	else if(isCase2==true) {
-	    		//System.out.print("检测到新增疑似患者");
+	    		addSP(string);
 	    	}
 	    	else if(isCase3==true) {
 	    		//System.out.print("治愈");
@@ -187,16 +187,32 @@ class InfectStatistic {
 	    	String[] str_arr = string.split(" "); 
 	    	int i;
 	    	int n = Integer.valueOf(str_arr[3].replace("人", ""));//得到数据
-	    	System.out.println(data[0][0]);
 	    	for(i = 0; i < province.length; i++) {
 	    		if(str_arr[0].equals(province[i])) { 
 	    			data[0][0] += n; //全国感染患者人数增加
-	    	    	System.out.println(data[0][0]);
 	    			data[i][0] += n; //该省份感染患者人数增加
 	    			break;
 	    		}
 	    	}
 	    }
+	    
+	    /*处理疑似感染患者*/
+	    public void addSP(String string) {
+	    	String[] str_arr = string.split(" ");
+	    	int i;
+	    	int n = Integer.valueOf(str_arr[3].replace("人", ""));
+	    	System.out.println(data[0][1]);
+	    	for(i = 0; i < province.length; i++) {
+	    		if(str_arr[0].equals(province[i])) { 
+	    			data[0][1] += n; //全国疑似患者人数增加
+	    	    	System.out.println(data[0][1]);
+	    			data[i][1] += n; //该省份疑似患者人数增加
+	    			break;
+	    		}
+	    	}
+	    }
+	    
+	    
 	    
     }
     
