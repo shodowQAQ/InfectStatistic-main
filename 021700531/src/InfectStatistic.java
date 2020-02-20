@@ -179,7 +179,7 @@ class InfectStatistic {
 	    		diagnoseSP(string);
 	    	}
 	    	else if(isCase8=true) {
-	    		//System.out.print("疑似排");
+	    		ignoreSP(string);
 	    	}
 	    }
 	    
@@ -287,10 +287,24 @@ class InfectStatistic {
 	    			data[0][0] += n; //全国感染患者人数增加
 	    			data[i][1] -= n; //该省份疑似患者人数减少
 	    			data[i][0] += n; //该省份感染患者人数增加
-	    			System.out.println(data[0][1]);
-	    			System.out.println(data[0][0]);
+	    			break;
+	    		}
+	    	}
+	    }
+	    
+	    
+	    /*疑似患者排除*/
+	    public void ignoreSP(String string) {
+	    	String[] str_arr = string.split(" "); 
+	    	int i;
+	    	int n = Integer.valueOf(str_arr[3].replace("人", ""));
+	    	
+	    	for(i = 0; i < province.length; i++) {
+	    		if(str_arr[0].equals(province[i])) { //第一个字符串为省份
+	    			data[i][1] -= n; //该省份疑似患者人数减少
+	    			data[0][1] -= n; //全国疑似患者人数减少
 	    			System.out.println(data[i][1]);
-	    			System.out.println(data[i][0]);
+	    			System.out.println(data[0][1]);
 	    			break;
 	    		}
 	    	}
