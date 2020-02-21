@@ -22,11 +22,19 @@ import java.util.regex.Pattern;
 class InfectStatistic {
 	/*定义静态数据省份和数据*/
 	static String[] province = {"全国", "安徽", "澳门" ,"北京", "重庆", "福建","甘肃","广东", "广西", "贵州", "海南", "河北", "河南", "黑龙江", "湖北", "湖南", "吉林","江苏", "江西", "辽宁", "内蒙古", "宁夏", "青海", "山东", "山西", "陕西", "上海","四川", "台湾", "天津", "西藏", "香港", "新疆", "云南", "浙江"};
+	/*定义每个省份的四种数据*/
 	static int[][] data =new int[35][4];
+	/*定义需要输出的省份默认全为零即全输出*/
+	static int[] needprovince=new int[35];
+	/*定义时间*/
 	static String date;
+	/*定义输入路径*/
 	static String input;
+	/*定义输出路径*/
 	static String output;
-	static int[] type = {0,0,0,0};
+	/*定义需要输出的类型默认全为零即全输出*/
+	static int[] type = new int[4];
+	/*定义患者类型*/
 	static String[] typename = {"感染患者", "疑似患者", "治愈", "死亡"};
     
     /*指令类*/
@@ -70,10 +78,17 @@ class InfectStatistic {
  						return false;
  					}
     			 }
-    			 else if(instructions[i].equals("-type")) {
+    			 else if(instructions[i].equals("-type")) {//读取-type指令
     				 i = setType(i++);
     				 if(i==-1) {
-    					 System.out.println("type类型错误");
+    					 System.out.println("type指令格式错误");
+    					 return false;
+    				 }
+    			 }
+    			 else if(instructions[i].equals("-province")) {//读取-province 指令
+    				 i =setNeedProvince(i++);
+    				 if (i==-1) {
+    					 System.out.println("province指令格式错误");
     					 return false;
     				 }
     			 }
@@ -81,31 +96,55 @@ class InfectStatistic {
     		return true;
     	}
     	
+    	/*需要的省份数据*/
+    	public int setNeedProvince(int i) {
+    		int judge=0;//判断有无更改
+    		for(int j = 0;j<35;j++) {//将所有定义为不输出
+    			needprovince[j] = 1;
+    		}
+    		if(i < instructions.length) {
+    			for(int j = 0;i < 35;j++) {
+    				if (province[j].equals(instructions[i])) {
+    					needprovince[j] = 0;
+    					judge=1;
+    					i++;
+    				}
+    			}
+    			if(judge == 0) {
+    				return -1;
+    			}
+    		}
+    		else {
+    			return -1;
+    		}
+    		return i;
+    	}
+    	
     	/*指令输出数据类型*/
     	public int setType(int i) {
-    		for(int j=0;j<4;j++)//将所有类型定义为不输出
+    		for(int j = 0;j<4;j++)//将所有类型定义为不输出
     		{
-    			type[j]=1;
+    			type[j] = 1;
     		}
     		if(i < instructions.length) {
     			if(instructions.equals("ip"))
     			{
-    				type[0]=0;
+    				type[0] = 0;
     				i++;
     			}
     			if(instructions.equals("sp")) {
-    				type[1]=0;
+    				type[1] =0;
     				i++;
     			}
     			if(instructions.equals("cure")) {
-    				type[2]=0;
+    				type[2] = 0;
     				i++;
     			}
     			if(instructions.equals("dead")) {
-    				type[3]=0;
+    				type[3] = 0;
     				i++;
     			}
-    			if (type[0]==1&&type[1]==1&&type[2]==1&&type[3]==1) {
+    			if (type[0] == 1&&type[1] == 1&&type[2] == 1&&type[3] == 1) {
     				return -1;
     			}
     		}
@@ -361,13 +400,14 @@ class InfectStatistic {
 	        try {
 	        	fwriter = new FileWriter(output);
 	        	for(i = 0; i < province.length; i++) { 
-	        			fwriter.write(province[i] + " ");
-	        				for(k = 0; k < type.length; k++) {
-	        						if(type[k]==0)
-	        							fwriter.write(typename[k] + data[i][k] + "人 ");
-	        						break;
-	        				}
-	        			fwriter.write("\n");
+	        			if(needprovince[i] == 0) {
+	        				fwriter.write(province[i] + " ");
+	        					for(k = 0; k < type.length; k++) {
+	        							if(type[k]==0)
+	        								fwriter.write(typename[k] + data[i][k] + "人 ");
+	        					}
+	        					fwriter.write("\n");
+	        			}
 	        	}
 	        } catch (Exception e) {
 	            e.printStackTrace();
