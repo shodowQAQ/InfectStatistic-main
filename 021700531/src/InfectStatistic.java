@@ -26,7 +26,7 @@ class InfectStatistic {
 	static String date;
 	static String input;
 	static String output;
-	static int[] type = {1,2,3,4};
+	static int[] type = {0,0,0,0};
 	static String[] typename = {"感染患者", "疑似患者", "治愈", "死亡"};
     
     /*指令类*/
@@ -50,7 +50,7 @@ class InfectStatistic {
     		for (int i=0;i<instructions.length;i++)
     		{
     			 if(instructions[i].equals("-date")) { //读取到-date参数
- 					i= setDate(++i);
+ 					i = setDate(++i);
  					if(i == -1) { //说明上述步骤中发现命令行出错
  						System.out.println("日期输入格式错误");
  						return false;
@@ -64,14 +64,54 @@ class InfectStatistic {
  					}
     			 }
     			 else if(instructions[i].equals("-out")) {//读取-out输出路径
- 					i= setOutPut(++i);
+ 					i = setOutPut(++i);
  					if(i==-1) {
  						System.out.println("输出参数错误");
  						return false;
  					}
     			 }
+    			 else if(instructions[i].equals("-type")) {
+    				 i = setType(i++);
+    				 if(i==-1) {
+    					 System.out.println("type类型错误");
+    					 return false;
+    				 }
+    			 }
     		}
     		return true;
+    	}
+    	
+    	/*指令输出数据类型*/
+    	public int setType(int i) {
+    		for(int j=0;j<4;j++)//将所有类型定义为不输出
+    		{
+    			type[j]=1;
+    		}
+    		if(i < instructions.length) {
+    			if(instructions.equals("ip"))
+    			{
+    				type[0]=0;
+    				i++;
+    			}
+    			if(instructions.equals("sp")) {
+    				type[1]=0;
+    				i++;
+    			}
+    			if(instructions.equals("cure")) {
+    				type[2]=0;
+    				i++;
+    			}
+    			if(instructions.equals("dead")) {
+    				type[3]=0;
+    				i++;
+    			}
+    			if (type[0]==1&&type[1]==1&&type[2]==1&&type[3]==1) {
+    				return -1;
+    			}
+    		}
+    		else
+    			return -1;
+    		return i;
     	}
     	
     	/*判断日期指令*/
@@ -323,7 +363,8 @@ class InfectStatistic {
 	        	for(i = 0; i < province.length; i++) { 
 	        			fwriter.write(province[i] + " ");
 	        				for(k = 0; k < type.length; k++) {
-	        						fwriter.write(typename[k] + data[i][k] + "人 ");
+	        						if(type[k]==0)
+	        							fwriter.write(typename[k] + data[i][k] + "人 ");
 	        						break;
 	        				}
 	        			fwriter.write("\n");
